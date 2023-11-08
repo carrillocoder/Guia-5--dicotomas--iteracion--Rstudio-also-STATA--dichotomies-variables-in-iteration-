@@ -1,0 +1,39 @@
+#guia 6
+setwd("D:/ACTIVIDAD/Guia 5")
+library(haven)
+wag=read_dta ("wage1.dta")
+attach(wag)
+#dicotomas
+table(female) #frecuencias absolutas 
+prop.table(table(female))*100 #frecuencias relativas 
+table(married)
+prop.table(table(married))*100
+#modelos lineales 
+m1=lm(wage~female)
+summary(m1)
+m2=lm(wage~educ+female)
+summary(m2)
+#modelos log lin 
+lwage=log(wage)
+m3=lm(lwage~female)
+summary(m3)
+(exp(-0.39722)-1)*100 #-32.78139%
+#interpretacion con beta 1 
+#las mujeres devengan en promedio un 32.78139% menos que los hombres 
+#ejercicios 
+#1. encontrar la brecha salarial en USD ente una mujer soltera y un hombre casado 
+m4 = lm(wage~female + married)
+summary(m4)
+# la mujer gana en promedio 2.2944$ menos que un hombre no casado ceteris paribus
+#una persona casada independiente de su genero gana 1.3395$ mas que una no casada  
+#2. Encontrar la brecha salarial porcentual entre una mujer soltera y un hombre casado 
+m5 = lm(lwage ~ female + married)
+summary(m5)
+female_effect = (exp(-0.35934) - 1) * 100
+married_effect = (exp(0.23337) - 1) * 100
+female_effect
+married_effect
+#Manteniendo todas las demás variables constantes,
+#estar casado se asocia con un aumento del 26.28486% en el salario en comparación con no estar casado.
+#Manteniendo todas las demás variables constantes, ser mujer se asocia con una reducción del 30.18631% 
+#en el salario en comparación con ser hombre.
